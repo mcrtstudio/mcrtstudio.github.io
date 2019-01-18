@@ -8,6 +8,10 @@
     		margin: 0;
     		overflow: hidden;
     	}
+
+    	canvas{
+    		background: green;
+		}
     </style>
 </head>
 <body>
@@ -27,7 +31,8 @@
     //RENDERER
     renderer = new THREE.WebGLRenderer({
       canvas: myCanvas, 
-      antialias: true
+      antialias: true,
+      alpha: true,
     });
     renderer.setClearColor(0x000000);
     renderer.setPixelRatio(window.devicePixelRatio);
