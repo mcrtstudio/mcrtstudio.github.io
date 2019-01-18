@@ -50,20 +50,17 @@
         console.log(gltf);
         mesh = gltf.scene;
         console.log(mesh.children[0]);
-        mesh.children[0].material = new THREE.MeshLambertMaterial({
-            emissive: 0x000000,
-            emissiveIntensity: 2.0,
-        });
+        mesh.children[0].material = new THREE.MeshLambertMaterial();
         scene.add( mesh );
         mesh.position.z = -20;
     }
 
 
     //LIGHTS
-    var light = new THREE.AmbientLight(0xffffff, 0.5);
+    var light = new THREE.AmbientLight(0x7a7a7a, 0.5);
     scene.add(light);
 
-    var light2 = new THREE.DirectionalLight(0xff0000, 2.0, 2000);
+    var light2 = new THREE.DirectionalLight(0xffffff, 2.0, 500);
     light2.target = mesh;
     scene.add(light2);
     
