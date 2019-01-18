@@ -1,43 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>@MCRT.Studio</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
-			body {
-				font-family: Monospace;
-				background-color: #f00;
-				color: #f00;
-				margin: 0px;
-				overflow: hidden;
-			}
-			#info {
-				color: #fff;
-				position: absolute;
-				top: 10px;
-				width: 100%;
-				text-align: center;
-				z-index: 100;
-				display:block;
-			}
-			p, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
-		</style>
-	</head>
+    <title>threejs - models</title>
 
-	<body>
-		<div>
-		<p>@MCRT.Studio</p>
-		</div>
+    <style>
+    	body{
+    		margin: 0;
+    		overflow: hidden;
+    	}
+    </style>
+</head>
+<body>
 
-		<script src="scripts/three.js"></script>
-		<script src="scripts/WebGL.js"></script>
-		<script src="scripts/stats.min.js"></script>
+    <canvas id="myCanvas"></canvas>
 
-		<canvas id="myCanvas"></canvas>
+    <script src="scripts/three.js"></script>
+    <script src="scripts/GLTFLoader.js"></script>
 
-<script>
-var renderer,
+    <script>
+
+    var renderer,
     	scene,
     	camera,
     	myCanvas = document.getElementById('myCanvas');
@@ -64,35 +46,20 @@ var renderer,
     var light2 = new THREE.PointLight(0xffffff, 0.5);
     scene.add(light2);
   
-    
-    var loader = new THREE.JSONLoader();
+    var loader = new THREE.GLTFLoader();
 
-    loader.load( 'models/mcrtlogo.json', handle_load);
+    loader.load('models/mcrtlogo2.glb', handle_load);
 
     var mesh;
-    var mixer;
 
-    function handle_load(geometry, materials) {
+    function handle_load(gltf) {
 
-        //BASIC MESH
-        // var material = new THREE.MultiMaterial(materials);
-        // mesh = new THREE.Mesh(geometry, material);
-        // scene.add(mesh);
-        // mesh.position.z = -10;
-
-        //ANIMATION MESH
-        var material = new THREE.MeshLambertMaterial({morphTargets: true});
-
-        mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
+        console.log(gltf);
+        mesh = gltf.scene;
+        console.log(mesh.children[0]);
+        mesh.children[0].material = new THREE.MeshLambertMaterial();
+		scene.add( mesh );
         mesh.position.z = -10;
-
-
-        //MIXER
-        mixer = new THREE.AnimationMixer(mesh);
-
-        var clip = THREE.AnimationClip.CreateFromMorphTargetSequence('talk', geometry.morphTargets, 30);
-        mixer.clipAction(clip).setDuration(1).play();
     }
 
 
@@ -112,12 +79,6 @@ var renderer,
 
             //animation mesh
             // mesh.morphTargetInfluences[ 0 ] = Math.sin(delta) * 20.0;
-        }
-
-        if (mixer) {
-            var time = Date.now();
-            mixer.update((time - prevTime) * 0.001);
-            prevTime = time;
         }
 
     	renderer.render(scene, camera);
