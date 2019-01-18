@@ -25,15 +25,15 @@
 
     var renderer,
     	scene,
-    	camera,
-    	myCanvas = document.getElementById('myCanvas');
+    	camera;
 
     //RENDERER
     renderer = new THREE.WebGLRenderer({
-      canvas: myCanvas, 
+      canvas: document.getElementById('myCanvas') 
       antialias: true
+      alpha: true
     });
-    renderer.setClearColor(0x000000);
+    
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
 
