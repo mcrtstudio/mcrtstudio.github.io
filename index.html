@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>threejs - models</title>
+    <title>@MCRT.Studio</title>
 
     <style>
     	body{
@@ -44,7 +44,6 @@
 
     var light2 = new THREE.PointLight(0xffffff, 0.5);
     scene.add(light2);
-
     
   
     var loader = new THREE.GLTFLoader();
@@ -58,9 +57,12 @@
         console.log(gltf);
         mesh = gltf.scene;
         console.log(mesh.children[0]);
-        mesh.children[0].material = new THREE.MeshLambertMaterial();
+        mesh.children[0].material = new THREE.MeshLambertMaterial({
+            emissive: 0xff0000,
+            emissiveIntensity: 1
+        });
 		scene.add( mesh );
-        mesh.position.z = -10;
+        mesh.position.z = -20;
     }
 
 
