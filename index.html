@@ -46,7 +46,7 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.z = 250;
+				camera.position.z = 10;
 				// scene
 				scene = new THREE.Scene();
 				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
@@ -59,7 +59,7 @@
 					object.traverse( function ( child ) {
 						if ( child.isMesh ) child.material.map = texture;
 					} );
-					object.position.y = 0;
+					object.position.y = - 95;
 					scene.add( object );
 				}
 				var manager = new THREE.LoadingManager( loadModel );
