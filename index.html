@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>@MCRT.Studio</title>
+    <title>@MCRT.Studio 2.0</title>
 
     <style>
     	body{
@@ -26,7 +26,8 @@
     //RENDERER
     renderer = new THREE.WebGLRenderer({
       canvas: document.getElementById('myCanvas'),
-      antialias: true
+      antialias: true,
+      alpha: true
     });
     
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -38,16 +39,9 @@
     //SCENE
     scene = new THREE.Scene();
 
-    //LIGHTS
-    var light = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(light);
+        var loader = new THREE.GLTFLoader();
 
-    var light2 = new THREE.PointLight(0xffffff, 0.5);
-    scene.add(light2);
-    
-  
-    var loader = new THREE.GLTFLoader();
-
+    //LOADER
     loader.load('models/mcrtlogo2.glb', handle_load);
 
     var mesh;
@@ -57,13 +51,22 @@
         console.log(gltf);
         mesh = gltf.scene;
         console.log(mesh.children[0]);
-        mesh.children[0].material = new THREE.MeshLambertMaterial({
-            emissive: 0xff0000,
-            emissiveIntensity: 1
-        });
-		scene.add( mesh );
+        mesh.children[0].material = new THREE.MeshLambertMaterial();
+        scene.add( mesh );
         mesh.position.z = -20;
     }
+
+
+    //LIGHTS
+    var light = new THREE.AmbientLight(0x000000, 1.0);
+    scene.add(light);
+
+    var light2 = new THREE.DirectionalLight(0xffffff, 2.0, 1000);
+    light2.target = mesh;
+    scene.add(light2);
+    
+  
+
 
 
     //RENDER LOOP
