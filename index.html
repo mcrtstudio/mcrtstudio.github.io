@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - loaders - Clara.io JSON loader</title>
+		<title>three.js webgl - OBJLoader + MTLLoader</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -27,14 +27,16 @@
 
 	<body>
 		<div id="info">
-		<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - <a href="https://clara.io" target="_blank" rel="noopener">Clara.io</a> JSON Scene/Object Load Test<br/>
-		More Information: <a href="https://clara.io/learn/user-guide/data_exchange/threejs_export" target="_blank" rel="noopener">Clara.io ThreeJS Export Documentation</a>
+		<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - OBJLoader + MTLLoader
 		</div>
 
-		<script src="js/three.js"></script>
+		<script src="scripts/three.js"></script>
 
-		<script src="js/WebGL.js"></script>
-		<script src="js/stats.min.js"></script>
+		<script src="scripts/DDSLoader.js"></script>
+		<script src="scripts/MTLLoader.js"></script>
+		<script src="scripts/OBJLoader.js"></script>
+
+		<script src="scripts/stats.min.js"></script>
 
 		<script>
 
@@ -58,27 +60,55 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.z = 4;
+				camera.position.z = 250;
 
 				// scene
 
 				scene = new THREE.Scene();
 
-				var ambient = new THREE.AmbientLight( 0x444444 );
-				scene.add( ambient );
+				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
+				scene.add( ambientLight );
 
-				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				directionalLight.position.set( 0, 0, 1 ).normalize();
-				scene.add( directionalLight );
+				var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
+				camera.add( pointLight );
+				scene.add( camera );
 
-				// BEGIN Clara.io JSON loader code
-				var objectLoader = new THREE.ObjectLoader();
-				objectLoader.load( "models/teapot-claraio.json", function ( obj ) {
+				// model
 
-				 	scene.add( obj );
+				var onProgress = function ( xhr ) {
 
-				} );
-				// END Clara.io JSON loader code
+					if ( xhr.lengthComputable ) {
+
+						var percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+
+					}
+
+				};
+
+				var onError = function () { };
+
+				THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+
+				new THREE.MTLLoader()
+					.setPath( 'models/' )
+					.load( 'male02_dds.mtl', function ( materials ) {
+
+						materials.preload();
+
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							.setPath( 'models/' )
+							.load( 'male02.obj', function ( object ) {
+
+								object.position.y = - 95;
+								scene.add( object );
+
+							}, onProgress, onError );
+
+					} );
+
+				//
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
