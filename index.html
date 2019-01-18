@@ -8,10 +8,6 @@
     		margin: 0;
     		overflow: hidden;
     	}
-
-    	canvas{
-    		background: green;
-		}
     </style>
 </head>
 <body>
@@ -44,10 +40,10 @@
     scene = new THREE.Scene();
 
     //LIGHTS
-    var light = new THREE.AmbientLight(0xffffff, 0.5);
+    var light = new THREE.AmbientLight(0xffffff, 1);
     scene.add(light);
 
-    var light2 = new THREE.PointLight(0xffffff, 0.5);
+    var light2 = new THREE.PointLight(0xffffff, 1);
     scene.add(light2);
   
     var loader = new THREE.GLTFLoader();
