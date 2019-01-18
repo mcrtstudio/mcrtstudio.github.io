@@ -42,7 +42,8 @@
     var light = new THREE.AmbientLight(0xff0000, 0.5);
     scene.add(light);
 
-    var light2 = new THREE.PointLight(0xff0000, 0.5);
+    var light2 = new THREE.DirectionalLight(0xffffff, 2.0, 1000);
+    light2.target = mesh;
     scene.add(light2);
   
     var loader = new THREE.GLTFLoader();
