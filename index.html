@@ -47,7 +47,7 @@
 				document.body.appendChild( container );
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 				camera.position.z = 0;
-				camera.position.x = 1000;
+				
 				// scene
 				scene = new THREE.Scene();
 				var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
@@ -60,7 +60,7 @@
 					object.traverse( function ( child ) {
 						if ( child.isMesh ) child.material.map = texture;
 					} );
-					object.position.y = - 95;
+					object.position.y = 0;
 					scene.add( object );
 				}
 				var manager = new THREE.LoadingManager( loadModel );
@@ -69,7 +69,7 @@
 				};
 				// texture
 				var textureLoader = new THREE.TextureLoader( manager );
-				var texture = textureLoader.load( 'images/POLAR03.jpg.jpg' );
+				var texture = textureLoader.load( 'images/POLAR03.jpg' );
 				// model
 				function onProgress( xhr ) {
 					if ( xhr.lengthComputable ) {
