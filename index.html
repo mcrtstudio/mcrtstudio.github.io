@@ -26,8 +26,7 @@
     //RENDERER
     renderer = new THREE.WebGLRenderer({
       canvas: document.getElementById('myCanvas'),
-      antialias: true,
-      alpha: true
+      antialias: true
     });
     
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -51,17 +50,20 @@
         console.log(gltf);
         mesh = gltf.scene;
         console.log(mesh.children[0]);
-        mesh.children[0].material = new THREE.MeshLambertMaterial();
+        mesh.children[0].material = new THREE.MeshLambertMaterial({
+            emissive: 0x000000,
+            emissiveIntensity: 2.0,
+        });
         scene.add( mesh );
         mesh.position.z = -20;
     }
 
 
     //LIGHTS
-    var light = new THREE.AmbientLight(0x000000, 1.0);
+    var light = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(light);
 
-    var light2 = new THREE.DirectionalLight(0xffffff, 2.0, 1000);
+    var light2 = new THREE.DirectionalLight(0xff0000, 2.0, 2000);
     light2.target = mesh;
     scene.add(light2);
     
